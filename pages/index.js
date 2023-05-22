@@ -42,9 +42,9 @@ const HeroSection = () => {
           onClick={handleClick}
         >
           {isHovered ? (
-            <div className="-translate-x-6">Scroll Down</div>
+            <div className="-translate-x-6 -translate-y-4">Scroll Down</div>
           ) : (
-            <FiChevronDown className="h-[30px] w-[30px]" />
+            <FiChevronDown className="h-[30px] w-[30px] animate-bounce" />
           )}
         </div>
         <div>
