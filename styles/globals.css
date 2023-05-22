@@ -51,14 +51,24 @@ body {
   height: 10px;
   border-radius: 50%;
   margin-bottom: 10px;
-  background-color: black;
   cursor: pointer;
 }
-
-.dot.active {
-  background-color: white;
-  border: 1px solid black;
+.dot-light {
+  background-color: rgb(255, 255, 255);
 }
+.dot-dark {
+  background-color: #000000;
+}
+.dot-light.active {
+  background-color: #000000;
+  border: 1px solid #ffffff;
+}
+
+.dot-dark.active {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+}
+
 .sections-container {
   display: flex;
   flex-direction: column;

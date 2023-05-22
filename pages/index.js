@@ -89,15 +89,72 @@ const NatureAquarium = ({ imgUrl, heading }) => {
 
 const index = () => {
   const sections = useRef([]);
+  const containerRef = useRef(null);
+  const secondContainerRef = useRef(null);
+  const thirdContainerRef = useRef(null);
+  const fourthContainerRef = useRef(null);
+  const fifthContainer = useRef(null);
+
   const [activeSection, setActiveSection] = useState(0);
 
+  const [lightColor, setLightColor] = useState(true);
+
   const handleScroll = () => {
+    // dot color changeing based on background
+    const container = containerRef.current;
+
+    const { top } = container.getBoundingClientRect();
+    if (top + window.scrollY > window.innerHeight) setLightColor(false);
+    if (top + window.scrollY < window.innerHeight) setLightColor(true);
+
+    // for second container
+    const container2 = secondContainerRef.current;
+    const { top: top2, height } = container2.getBoundingClientRect();
+
+    if (
+      top + window.scrollY > top2 + window.scrollY &&
+      top + window.scrollY < top2 + window.scrollY + height
+    )
+      setLightColor(true);
+
+    // for third container
+
+    const container3 = thirdContainerRef.current;
+    const { top: top3, height: height3 } = container3.getBoundingClientRect();
+
+    if (
+      top + window.scrollY > top3 + window.scrollY &&
+      top + window.scrollY < top3 + window.scrollY + height3
+    )
+      setLightColor(true);
+
+    // for fourth container
+
+    const container4 = fourthContainerRef.current;
+    const { top: top4, height: height4 } = container4.getBoundingClientRect();
+
+    if (
+      top + window.scrollY > top4 + window.scrollY &&
+      top + window.scrollY < top4 + window.scrollY + height4
+    )
+      setLightColor(true);
+
+    // for fifth container
+
+    const container5 = fifthContainer.current;
+    const { top: top5, height: height5 } = container5.getBoundingClientRect();
+
+    if (
+      top + window.scrollY > top5 + window.scrollY &&
+      top + window.scrollY < top5 + window.scrollY + height5
+    )
+      setLightColor(true);
+
     const currentScrollPos = window.pageYOffset;
     let activeIndex = 0;
     let minDistance = Math.abs(
       currentScrollPos - sections.current[0].offsetTop
     );
-
     sections.current.forEach((section, index) => {
       const distance = Math.abs(currentScrollPos - section.offsetTop);
       if (distance < minDistance) {
@@ -119,27 +176,38 @@ const index = () => {
   const scrollToSection = (index) => {
     sections.current[index].scrollIntoView({ behavior: "smooth" });
   };
+
   return (
     <>
-      <div className="dots-container ">
+      <div ref={containerRef} className="dots-container ">
         <div
-          className={`dot ${activeSection === 0 ? "active" : ""}`}
+          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+            activeSection === 0 ? "active" : ""
+          }`}
           onClick={() => scrollToSection(0)}
         />
         <div
-          className={`dot ${activeSection === 1 ? "active" : ""}`}
+          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+            activeSection === 1 ? "active" : ""
+          }`}
           onClick={() => scrollToSection(1)}
         />
         <div
-          className={`dot ${activeSection === 2 ? "active" : ""}`}
+          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+            activeSection === 2 ? "active" : ""
+          }`}
           onClick={() => scrollToSection(2)}
         />
         <div
-          className={`dot ${activeSection === 3 ? "active" : ""}`}
+          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+            activeSection === 3 ? "active" : ""
+          }`}
           onClick={() => scrollToSection(3)}
         />
         <div
-          className={`dot ${activeSection === 4 ? "active" : ""}`}
+          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+            activeSection === 4 ? "active" : ""
+          }`}
           onClick={() => scrollToSection(4)}
         />
       </div>
@@ -158,11 +226,12 @@ const index = () => {
           ref={(ref) => (sections.current[1] = ref)}
           className={` ${activeSection === 1 ? "active" : ""}`}
         >
-          <NatureAquarium
-            imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419037725474-M827IIUP14I4QC3EMI6H/DSC_5394.JPG?format=2500w"
-            heading="WHAT IS A NATURE AQUARIUM?"
-          />
-
+          <div ref={secondContainerRef}>
+            <NatureAquarium
+              imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419037725474-M827IIUP14I4QC3EMI6H/DSC_5394.JPG?format=2500w"
+              heading="WHAT IS A NATURE AQUARIUM?"
+            />
+          </div>
           <div className="max-w-[693px] mx-auto px-4 flex flex-col gap-10 justify-center items-center py-20">
             <img
               src="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1420068222099-KDBCYHQDCIAETIL6Y6XU/Takashi-Amano-ADA?format=750w"
@@ -209,10 +278,12 @@ const index = () => {
           ref={(ref) => (sections.current[2] = ref)}
           className={` ${activeSection === 2 ? "active" : ""}`}
         >
-          <NatureAquarium
-            imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419038597778-TQM1NVVEE87CUSWTCB9F/DSC_3505.JPG?format=2500w"
-            heading="THE SHOP & SHOWROOM"
-          />
+          <div ref={thirdContainerRef}>
+            <NatureAquarium
+              imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419038597778-TQM1NVVEE87CUSWTCB9F/DSC_3505.JPG?format=2500w"
+              heading="THE SHOP & SHOWROOM"
+            />
+          </div>
           <Section4 />
           <ImageGallery />
         </section>
@@ -221,10 +292,12 @@ const index = () => {
           ref={(ref) => (sections.current[3] = ref)}
           className={` ${activeSection === 3 ? "active" : ""}`}
         >
-          <NatureAquarium
-            imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419643749782-0E1Y19USZ1KW7D4GSASJ/DSC_3365.JPG?format=2500w"
-            heading="AQUARIUM ZEN"
-          />
+          <div ref={fourthContainerRef}>
+            <NatureAquarium
+              imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419643749782-0E1Y19USZ1KW7D4GSASJ/DSC_3365.JPG?format=2500w"
+              heading="AQUARIUM ZEN"
+            />
+          </div>
         </section>
         {/* 5 */}
         <section
@@ -244,10 +317,12 @@ const index = () => {
               <FiChevronUp />
               <span className="text-[14px]">TOP</span>
             </div>
-            <NatureAquarium
-              imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419042227487-HKUBMZ5LHSEM2V8CS8GS/orange-head-fish.jpg?format=2500w"
-              heading="CREATE NATURE"
-            />
+            <div ref={fifthContainer}>
+              <NatureAquarium
+                imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419042227487-HKUBMZ5LHSEM2V8CS8GS/orange-head-fish.jpg?format=2500w"
+                heading="CREATE NATURE"
+              />
+            </div>
           </div>
         </section>
       </Layout>
