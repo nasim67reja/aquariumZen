@@ -1,25 +1,168 @@
 import Layout from "@/components/Layout";
 import Navbar from "@/components/Navbar";
 import Wrapper from "@/components/Wrapper";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { Parallax, Background } from "react-parallax";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+
+const HeroSection = () => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+  const handleClick = () => {
+    window.scrollTo({
+      top: window.innerHeight,
+    });
+  };
+  return (
+    <Parallax strength={500}>
+      <Background className="custom-bg">
+        <div
+          style={{
+            height: "100vh",
+            width: "100vw",
+            backgroundImage:
+              "url('https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1420309152156-8I8POGHO6EUI6E0QX7MP/angelfish-slide-cropped.jpg?format=2500w')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </Background>
+      <div className="text-white h-screen flex justify-center items-center relative">
+        <div
+          className="absolute bottom-[2%] left-[50%]  cursor-pointer"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onClick={handleClick}
+        >
+          {isHovered ? (
+            <div className="-translate-x-6">Scroll Down</div>
+          ) : (
+            <FiChevronDown className="h-[30px] w-[30px]" />
+          )}
+        </div>
+        <div>
+          <h1 className="text-center text-[64px] tracking-[6px] ">
+            AQUARIUM ZEN
+          </h1>
+          <p className=" text-center text-[24px] my-[1rem]">SEATTLE, WA</p>
+          <p className="text-center  leading-[2.5] opacity-80 ">
+            Tropical Fish Store, Aquatic Plants & Nature Aquarium Supplies{" "}
+            <br />
+            Seattle's source for aquascaping inspiration.
+          </p>
+        </div>
+      </div>
+    </Parallax>
+  );
+};
+
+const NatureAquarium = ({ imgUrl, heading }) => {
+  return (
+    <Parallax strength={500}>
+      <Background className="custom-bg">
+        <div
+          style={{
+            height: "100vh",
+            width: "100vw",
+            backgroundImage: `url(${imgUrl})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+      </Background>
+
+      <div className="text-white h-[60vh] flex justify-center items-center relative">
+        <h2 className="max-w-[780px] text-[95px] text-center leading-[1]">
+          {heading}
+        </h2>
+      </div>
+    </Parallax>
+  );
+};
 
 const index = () => {
+  const sections = useRef([]);
+  const [activeSection, setActiveSection] = useState(0);
+
+  const handleScroll = () => {
+    const currentScrollPos = window.pageYOffset;
+    let activeIndex = 0;
+    let minDistance = Math.abs(
+      currentScrollPos - sections.current[0].offsetTop
+    );
+
+    sections.current.forEach((section, index) => {
+      const distance = Math.abs(currentScrollPos - section.offsetTop);
+      if (distance < minDistance) {
+        minDistance = distance;
+        activeIndex = index;
+      }
+    });
+
+    setActiveSection(activeIndex);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToSection = (index) => {
+    sections.current[index].scrollIntoView({ behavior: "smooth" });
+  };
   return (
     <>
-      <Layout>
-        <img
-          src="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1420309152156-8I8POGHO6EUI6E0QX7MP/angelfish-slide-cropped.jpg?format=2500w"
-          alt="fish in water"
-          className="w-full object-cover h-screen"
+      <div className="dots-container ">
+        <div
+          className={`dot ${activeSection === 0 ? "active" : ""}`}
+          onClick={() => scrollToSection(0)}
         />
-        <Wrapper />
-        <img
-          src="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419037725474-M827IIUP14I4QC3EMI6H/DSC_5394.JPG?format=1500w"
-          alt="nature"
-          className="w-full object-cover h-screen"
+        <div
+          className={`dot ${activeSection === 1 ? "active" : ""}`}
+          onClick={() => scrollToSection(1)}
         />
+        <div
+          className={`dot ${activeSection === 2 ? "active" : ""}`}
+          onClick={() => scrollToSection(2)}
+        />
+        <div
+          className={`dot ${activeSection === 3 ? "active" : ""}`}
+          onClick={() => scrollToSection(3)}
+        />
+        <div
+          className={`dot ${activeSection === 4 ? "active" : ""}`}
+          onClick={() => scrollToSection(4)}
+        />
+      </div>
 
-        <section>
+      <Layout>
+        {/* 1 */}
+        <section
+          ref={(ref) => (sections.current[0] = ref)}
+          className={` ${activeSection === 0 ? "active" : ""}`}
+        >
+          <HeroSection />
+          <Wrapper />
+        </section>
+        {/* 2 */}
+        <section
+          ref={(ref) => (sections.current[1] = ref)}
+          className={` ${activeSection === 1 ? "active" : ""}`}
+        >
+          <NatureAquarium
+            imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419037725474-M827IIUP14I4QC3EMI6H/DSC_5394.JPG?format=2500w"
+            heading="WHAT IS A NATURE AQUARIUM?"
+          />
+
           <div className="max-w-[693px] mx-auto px-4 flex flex-col gap-10 justify-center items-center py-20">
             <img
               src="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1420068222099-KDBCYHQDCIAETIL6Y6XU/Takashi-Amano-ADA?format=750w"
@@ -61,30 +204,57 @@ const index = () => {
             </div>
           </div>
         </section>
-        <img
-          src="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419038597778-TQM1NVVEE87CUSWTCB9F/DSC_3505.JPG?format=2500w"
-          alt="nature"
-          className="w-full object-cover h-screen"
-        />
-        <Section4 />
-        <ImageGallery />
-        <img
-          src="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419643749782-0E1Y19USZ1KW7D4GSASJ/DSC_3365.JPG?format=2500w"
-          alt="nature"
-          className="w-full object-cover h-screen"
-        />
-        <img
-          src="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419643749782-0E1Y19USZ1KW7D4GSASJ/DSC_3365.JPG?format=2500w"
-          alt="nature"
-          className="w-full object-cover h-screen"
-        />
+        {/* 3 */}
+        <section
+          ref={(ref) => (sections.current[2] = ref)}
+          className={` ${activeSection === 2 ? "active" : ""}`}
+        >
+          <NatureAquarium
+            imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419038597778-TQM1NVVEE87CUSWTCB9F/DSC_3505.JPG?format=2500w"
+            heading="THE SHOP & SHOWROOM"
+          />
+          <Section4 />
+          <ImageGallery />
+        </section>
+        {/* 4 */}
+        <section
+          ref={(ref) => (sections.current[3] = ref)}
+          className={` ${activeSection === 3 ? "active" : ""}`}
+        >
+          <NatureAquarium
+            imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419643749782-0E1Y19USZ1KW7D4GSASJ/DSC_3365.JPG?format=2500w"
+            heading="AQUARIUM ZEN"
+          />
+        </section>
+        {/* 5 */}
+        <section
+          ref={(ref) => (sections.current[4] = ref)}
+          className={` ${activeSection === 4 ? "active" : ""}`}
+        >
+          <div className="relative">
+            <div
+              className="absolute bottom-0 translate-y-[50%]border-4 border-white bg-[rgba(255,255,255,1)] text-black z-10 rounded-[50%]  flex flex-col justify-center items-center px-[10px] py-[4px] cursor-pointer translate-y-[50%] right-[48%]"
+              onClick={() => {
+                window.scrollTo({
+                  top: 0,
+                  left: 0,
+                });
+              }}
+            >
+              <FiChevronUp />
+              <span className="text-[14px]">TOP</span>
+            </div>
+            <NatureAquarium
+              imgUrl="https://images.squarespace-cdn.com/content/v1/5494a8f4e4b0f45669953a74/1419042227487-HKUBMZ5LHSEM2V8CS8GS/orange-head-fish.jpg?format=2500w"
+              heading="CREATE NATURE"
+            />
+          </div>
+        </section>
       </Layout>
     </>
   );
 };
-
 export default index;
-
 const ImageGallery = () => {
   return (
     <>

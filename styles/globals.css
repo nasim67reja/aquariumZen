@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -22,10 +22,54 @@
   padding: 0;
   box-sizing: border-box;
 }
-
+html {
+  scroll-behavior: smooth;
+}
 body {
-  font-family: "Cabin", sans-serif;
+  font-family: "Josefin Sans", sans-serif;
   min-height: 150vh;
   overflow-x: hidden;
+  font-weight: 400;
   color: #1c1c1c;
 }
+
+/* dot container */
+
+.dots-container {
+  position: fixed;
+  z-index: 100;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  background-color: black;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: white;
+  border: 1px solid black;
+}
+.sections-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+} */
