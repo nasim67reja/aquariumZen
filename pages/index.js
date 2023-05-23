@@ -87,6 +87,42 @@ const NatureAquarium = ({ imgUrl, heading }) => {
   );
 };
 
+const Dot = ({
+  text,
+  width,
+  i,
+  lightColor,
+  activeSection,
+  scrollToSection,
+}) => {
+  const [hoverActive, setHoverActive] = useState(false);
+
+  return (
+    <div
+      key={i}
+      className={`relative  dot ${lightColor ? "dot-light" : "dot-dark"} ${
+        activeSection === i ? "active" : ""
+      }`}
+      onClick={() => scrollToSection(i)}
+      onMouseEnter={() => {
+        setHoverActive(true);
+      }}
+      onMouseLeave={() => {
+        setHoverActive(false);
+      }}
+    >
+      {hoverActive && (
+        <div
+          className={`cus-ani absolute right-7 translate-y-[-3px] w-[250px]  uppercase text-[13px] text-end  ${
+            !lightColor ? "text-black" : "text-white"
+          }`}
+        >
+          {text}
+        </div>
+      )}
+    </div>
+  );
+};
 const index = () => {
   const sections = useRef([]);
   const containerRef = useRef(null);
@@ -176,40 +212,63 @@ const index = () => {
   const scrollToSection = (index) => {
     sections.current[index].scrollIntoView({ behavior: "smooth" });
   };
-
   return (
     <>
       <div ref={containerRef} className="dots-container ">
-        <div
-          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+        {[
+          "Aquarium Zen",
+          "What is a Nature Aquarium?",
+          "the Shop & Showroom",
+          "Aquarium Zen",
+          "Create Nature",
+        ].map((el, i) => (
+          <Dot
+            text={el}
+            key={i}
+            i={i}
+            lightColor={lightColor}
+            activeSection={activeSection}
+            scrollToSection={scrollToSection}
+          />
+          // <div
+          //   key={i}
+          //   className={`relative  dot ${
+          //     lightColor ? "dot-light" : "dot-dark"
+          //   } ${activeSection === i ? "active" : ""}`}
+          //   onClick={() => scrollToSection(i)}
+          // ></div>
+        ))}
+
+        {/* <div
+          className={`relative  dot ${lightColor ? "dot-light" : "dot-dark"} ${
             activeSection === 0 ? "active" : ""
           }`}
           onClick={() => scrollToSection(0)}
-        />
+        ></div>
         <div
-          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+          className={`relative dot ${lightColor ? "dot-light" : "dot-dark"} ${
             activeSection === 1 ? "active" : ""
           }`}
           onClick={() => scrollToSection(1)}
-        />
+        ></div>
         <div
-          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+          className={`relative dot ${lightColor ? "dot-light" : "dot-dark"} ${
             activeSection === 2 ? "active" : ""
           }`}
           onClick={() => scrollToSection(2)}
         />
         <div
-          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+          className={`relative dot ${lightColor ? "dot-light" : "dot-dark"} ${
             activeSection === 3 ? "active" : ""
           }`}
           onClick={() => scrollToSection(3)}
         />
         <div
-          className={`dot ${lightColor ? "dot-light" : "dot-dark"} ${
+          className={`relative dot ${lightColor ? "dot-light" : "dot-dark"} ${
             activeSection === 4 ? "active" : ""
           }`}
           onClick={() => scrollToSection(4)}
-        />
+        /> */}
       </div>
 
       <Layout>
