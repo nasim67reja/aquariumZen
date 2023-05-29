@@ -27,7 +27,6 @@ html {
 }
 body {
   font-family: "Josefin Sans", sans-serif;
-  min-height: 150vh;
   overflow-x: hidden;
   font-weight: 400;
   color: #1c1c1c;
